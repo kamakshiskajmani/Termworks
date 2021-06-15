@@ -1,0 +1,25 @@
+import pandas as pd
+dataPath="datasets_88705_204267_Real estate.csv"
+Read=pd.read_csv(dataPath)
+
+from sklearn.model_selection import train_test_split as tts
+
+feaures=['X2 house age','X3 distance to the nearest MRT station','X4 number of convenience stores','X5 latitude','X6 longitude']
+X=Read[feaures[1:4]]
+y=Read['Y house price of unit area']
+train_X,Val_X,train_Y,Val_Y=tts(X,y,random_state=1)
+print("Data is splitted!!\n")
+
+from sklearn.linear_model import LinearRegression as LR
+Call=LR()
+Call.fit(train_X,train_Y)
+S1=Call.score(train_X,train_Y)
+print("Rsquare of Training Data:",S1)
+
+predict=Call.predict(Val_X)
+S2=Call.score(Val_X,Val_Y)
+print("Rsquare of Validation Data:",S2)
+
+Call.intercept_
+Call.coef_
+Final=pd.DataFrame(data={"Actual Price":Val_Y,"Predicted Price":predict})
